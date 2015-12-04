@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 
 from api import views
 
@@ -22,7 +23,12 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 url(r'^admin/', include(admin.site.urls)),
+url(r'^docs/', include('rest_framework_swagger.urls')),
+#url(r'^swagger.json', RedirectView.as_view(url=r'docs/api-docs/', permanent=False)),
+
 url(r'^users/', views.UserList.as_view()),
 url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
-url(r'^docs/', include('rest_framework_swagger.urls')),
+
+url(r'^book/(?P<pk>[0-9]+)/$', views.BookDetail.as_view()),
+
 )
